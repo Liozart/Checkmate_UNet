@@ -9,26 +9,29 @@ public class GameSetup : MonoBehaviour {
     public Canvas modeCanvas;
     public Canvas characterCanvas;
     public Text hint;
-
-    public int mode;
+    
     public int character;
 
-	// Use this for initialization
+	// 1. gamemode selection
+    // 2. character selection
 	void Start () {
         characterCanvas.gameObject.SetActive(false);
+        
 	}
 
+    //When gamemode is set, change menu
     public void SetMode(int m)
     {
-        mode = m;
+        GameModeManager.chosenGameMode = m;
         modeCanvas.gameObject.SetActive(false);
         characterCanvas.gameObject.SetActive(true);
         hint.text = "Sélection de la classe de jeu";
     }
 
+    //Then load the gamescene
     public void SetCharacter(int c)
     {
-        character = c;
+        GameModeManager.chosenCharacter = c;
         SceneManager.LoadScene("GameScene");
     }
 }

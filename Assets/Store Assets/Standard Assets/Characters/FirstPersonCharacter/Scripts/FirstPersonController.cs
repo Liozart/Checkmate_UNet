@@ -42,6 +42,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        /** Access to speed vars from PlayerSystem
+         * */
+         public void SetCharacterSpeed(int sp)
+        {
+            Debug.Log("BASE: " + m_RunSpeed + ", sp: "+ sp);
+            m_RunSpeed *= ((float) sp / 100.0f);
+            Debug.Log("AFTER: " + m_RunSpeed);
+        }
+
+        /** Access to cursor state from PlayerSystem
+        * */
+        bool showCursor;
+        public void ChangeCursorState(bool show)
+        {
+            showCursor = show;
+            m_MouseLook.SetCursorLock(!show);
+        }
+
         // Use this for initialization
 		private void Start()
         {
@@ -129,7 +147,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-            m_MouseLook.UpdateCursorLock();
+            if (!showCursor)
+                m_MouseLook.UpdateCursorLock();
         }
 
 
@@ -211,7 +230,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #if !MOBILE_INPUT
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
-            m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+
+            /**
+             *  Modifications for permanent sprinting
+             * */
+            //m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+            //Always sprinting
+            m_IsWalking = false;
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;

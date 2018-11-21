@@ -22,6 +22,9 @@ public class Bullet : MonoBehaviour {
         {
             col.gameObject.GetComponent<PlayerSystem>().Damage(bulletDamage);
         }
+        else if (col.tag == "Cobaye")
+            Destroy(col.gameObject);
+
         if (col.tag != "Gun")
             Destroy(gameObject);
     }

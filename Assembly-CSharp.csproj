@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\EjectorShoot.cs" />
+    <Compile Include="Assets\Scripts\GameModeManager.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
     <Compile Include="Assets\Scripts\PlayerSystem.cs" />
     <Compile Include="Assets\Store Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" />
