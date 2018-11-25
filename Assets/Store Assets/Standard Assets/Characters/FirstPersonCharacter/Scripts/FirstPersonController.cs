@@ -46,9 +46,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
          * */
          public void SetCharacterSpeed(int sp)
         {
-            Debug.Log("BASE: " + m_RunSpeed + ", sp: "+ sp);
             m_RunSpeed *= ((float) sp / 100.0f);
-            Debug.Log("AFTER: " + m_RunSpeed);
         }
 
         /** Access to cursor state from PlayerSystem

@@ -10,7 +10,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace>
     </RootNamespace>
-    <ProjectGuid>{301F899C-39CE-5778-4887-C5FED9FCAFCC}</ProjectGuid>
+    <ProjectGuid>{A5134ADC-9C4D-25E5-F77E-183ABE4B6F4B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -63,8 +63,9 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Bullet.cs" />
     <Compile Include="Assets\Scripts\EjectorShoot.cs" />
-    <Compile Include="Assets\Scripts\GameModeManager.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
+    <Compile Include="Assets\Scripts\ManagerSpawner.cs" />
+    <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Compile Include="Assets\Scripts\PlayerSystem.cs" />
     <Compile Include="Assets\Store Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\FirstPersonController.cs" />
     <Compile Include="Assets\Store Assets\Standard Assets\Characters\FirstPersonCharacter\Scripts\HeadBob.cs" />
@@ -136,16 +137,16 @@
     <None Include="Assets\Store Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
     <None Include="Assets\Store Assets\Standard Assets\Effects\TessellationShaders\Shaders\BumpedSpecularDisplacement.shader" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/ChessWar_solo/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/Checkmate_UNet/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/ChessWar_solo/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/Checkmate_UNet/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/ChessWar_solo/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/Checkmate_UNet/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/ChessWar_solo/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/glout_000/Desktop/projets/Unity/Checkmate_UNet/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

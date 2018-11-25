@@ -217,6 +217,8 @@ GameObject:
   - component: {fileID: 54117950181642482}
   - component: {fileID: 82357921402290510}
   - component: {fileID: 114701585153216700}
+  - component: {fileID: 114930217621541988}
+  - component: {fileID: 114683709823012370}
   m_Layer: 0
   m_Name: PlayerKing
   m_TagString: Player
@@ -336,7 +338,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -956,6 +958,27 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &114683709823012370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925203923877228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114701585153216700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -996,6 +1019,38 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114930217621541988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925203923877228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 23
+    i1: 202
+    i2: 61
+    i3: 132
+    i4: 131
+    i5: 113
+    i6: 10
+    i7: 68
+    i8: 73
+    i9: 80
+    i10: 204
+    i11: 172
+    i12: 196
+    i13: 209
+    i14: 241
+    i15: 13
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!124 &124341733924794936
 Behaviour:
   m_ObjectHideFlags: 1

@@ -183,6 +183,8 @@ GameObject:
   - component: {fileID: 54285875864429290}
   - component: {fileID: 82389367768672196}
   - component: {fileID: 114880102296912426}
+  - component: {fileID: 114226951442759792}
+  - component: {fileID: 114538426905400756}
   m_Layer: 0
   m_Name: PlayerPawn
   m_TagString: Player
@@ -336,7 +338,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 311
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -591,6 +593,38 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &114226951442759792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549520723633988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 134
+    i1: 200
+    i2: 95
+    i3: 71
+    i4: 39
+    i5: 125
+    i6: 34
+    i7: 36
+    i8: 105
+    i9: 102
+    i10: 228
+    i11: 61
+    i12: 164
+    i13: 204
+    i14: 77
+    i15: 129
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114354038722446648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -652,6 +686,27 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Back
+--- !u!114 &114538426905400756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1549520723633988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114593574501841486
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using UnityStandardAssets.Characters.FirstPerson;
 
-public class PlayerSystem : MonoBehaviour {
+public class PlayerSystem : NetworkBehaviour {
 
     public int character;
 
@@ -30,20 +31,28 @@ public class PlayerSystem : MonoBehaviour {
     
     public Text statsText;
 
-	// Use this for initialization
-	void Start () {
-
-        character = GameModeManager.chosenCharacter;
+    // Use this for initialization
+    void Start()
+    {
+        character = ManagerSpawner.chosenCharacter;
         InitChosenCharacter();
 
         ejector = gameObject.GetComponentInChildren<EjectorShoot>();
         particles = gameObject.GetComponentInChildren<ParticleSystem>();
         particles.Stop();
-        
+
+        if (!isLocalPlayer)
+        {
+            gameObject.GetComponentInChildren<Camera>().gameObject.SetActive(false);
+            gameObject.GetComponentInChildren<Canvas>().gameObject.SetActive(false);
+        }
     }
-	
+
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (!isLocalPlayer)
+            return;
 
         //Display Cursor
         if (Input.GetKeyDown(KeyCode.Escape))
