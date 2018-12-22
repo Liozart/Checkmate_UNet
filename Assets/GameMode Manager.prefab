@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4770850990345540}
   - component: {fileID: 114684886810541486}
-  - component: {fileID: 114521922787090990}
+  - component: {fileID: 114879335239286460}
   m_Layer: 0
   m_Name: GameMode Manager
   m_TagString: Untagged
@@ -41,7 +41,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114521922787090990
+--- !u!114 &114684886810541486
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1697646865014118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c030fd044062c8449b993684f3d080b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefabs:
+  - {fileID: 1925203923877228, guid: 17ca3d8483710a444950ccacc4d1f10d, type: 2}
+  - {fileID: 1966046466663714, guid: d68afd6dbe7d7fe469a6c3f931ee66d4, type: 2}
+  - {fileID: 1549520723633988, guid: 86c85f47277d22246966e43da4cc4d81, type: 2}
+  - {fileID: 1172530361544608, guid: 0533969e771aae240ab133e1bf826608, type: 2}
+  - {fileID: 1860427025933990, guid: c76dc44f66011cd43b310b8e1821dffb, type: 2}
+  - {fileID: 1910835653598004, guid: 336a635f96c31604a8759e85b0660239, type: 2}
+  spawnPointTeamWhite: {fileID: 0}
+  spawnPointTeamBlack: {fileID: 0}
+  playersNumber: 0
+--- !u!114 &114879335239286460
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,22 +92,5 @@ MonoBehaviour:
     i13: 26
     i14: 90
     i15: 160
-  m_ServerOnly: 0
+  m_ServerOnly: 1
   m_LocalPlayerAuthority: 0
---- !u!114 &114684886810541486
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1697646865014118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c030fd044062c8449b993684f3d080b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPrefabs:
-  - {fileID: 1925203923877228, guid: 17ca3d8483710a444950ccacc4d1f10d, type: 2}
-  - {fileID: 1966046466663714, guid: d68afd6dbe7d7fe469a6c3f931ee66d4, type: 2}
-  - {fileID: 1549520723633988, guid: 86c85f47277d22246966e43da4cc4d81, type: 2}
-  spawnPointTeamWhite: {fileID: 0}
-  spawnPointTeamBlack: {fileID: 0}

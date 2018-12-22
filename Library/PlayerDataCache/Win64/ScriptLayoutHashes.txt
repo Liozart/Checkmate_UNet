@@ -1,6 +1,6 @@
 WindowsStandalone
 PlayerPath?
-C:/Users/glout_000/Desktop/projets/Unity/Checkmate_UNet/Builds/Checkmate_UNet.exe
+D:/Projets/Unity/Checkmate_UNet/Builds/Checkmate_UNet.exe
 SceneListBegin?
 Assets/Scenes/NetworkScene.unity
 Assets/Scenes/GameScene.unity
