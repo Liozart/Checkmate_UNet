@@ -18,6 +18,12 @@ public class AddPlayerMessage : MessageBase
     public string name;
 }
 
+/// <summary> Custom netMsg for Ready message sending</summary>
+public class PlayerMessage : MessageBase
+{
+    public string name;
+}
+
 public class ManagerSpawner : MonoBehaviour {
 
     public static int chosenCharacter;
@@ -34,11 +40,26 @@ public class ManagerSpawner : MonoBehaviour {
         NetworkServer.SpawnObjects();
 
         //Send a spawn player message to the server
+        AddPlayerMessage msg = (AddPlayerMessage)CreateAddPlayerMessage();
+        myClient.Send(MsgType.AddPlayer, msg);
+    }
+
+    public MessageBase CreateAddPlayerMessage()
+    {
         AddPlayerMessage msg = new AddPlayerMessage
         {
             character = chosenCharacter,
             name = chosenName
         };
-        myClient.Send(MsgType.AddPlayer, msg);
+        return msg;
+    }
+
+    public MessageBase CreatePlayerMessage()
+    {
+        PlayerMessage msg = new PlayerMessage
+        {
+            name = chosenName
+        };
+        return msg;
     }
 }

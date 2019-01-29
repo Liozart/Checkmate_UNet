@@ -14,6 +14,9 @@ using UnityEngine.Networking;
 
 public class PlayerManager : NetworkBehaviour
 {
+    //Top camera for waiting players
+    public GameObject waitCamera;
+
     //Host selected gamemode
     public static int chosenGameMode;
 
@@ -31,19 +34,36 @@ public class PlayerManager : NetworkBehaviour
     public SyncListString teamWhite;
     public SyncListString teamBlack;
 
+    //Number of in-game players
     [SyncVar]
     public int playersNumber;
+
+    //Number of player still playing : 0 means the round is over
+    public int playersAlive;
+
+    //Scores
+    int scoresWhite;
+    int scoresBlack;
+
 
     /// <summary>  
 	/// GameObject Start on server side
 	/// </summary>  
     public override void OnStartServer()
     {
-        playersNumber = 0;
+        playersNumber = playersAlive = 0;
+        scoresWhite = scoresBlack = 0;
+
         //Listen for AddPlayer messages from players
         NetworkServer.RegisterHandler(MsgType.AddPlayer, OnAddPlayerMessage);
-        NetworkServer.RegisterHandler(RespawnMessageCode, OnRespawnMessage);
         NetworkServer.RegisterHandler(MsgType.Disconnect, OnDisconnectMessage);
+
+        //Additionnal game mode setups
+        switch (chosenGameMode)
+        {
+            case 0:
+                break;
+        }
     }
 
     void OnDisconnectMessage(NetworkMessage netMsg)
@@ -85,10 +105,5 @@ public class PlayerManager : NetworkBehaviour
         // This spawns the new player on all clients
         NetworkServer.AddPlayerForConnection(netMsg.conn, pplayer, 0);
     }
-
-    void OnRespawnMessage(NetworkMessage netMsg)
-    {
-        RespawnMessage msg = netMsg.ReadMessage<RespawnMessage>();
-        Debug.Log("respawned : " + msg.name);
-    }
 }
+
