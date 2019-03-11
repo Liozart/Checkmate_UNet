@@ -31,8 +31,10 @@ public class PlayerManager : NetworkBehaviour
     public SyncListString teamWhite;
     public SyncListString teamBlack;
 
-    //Spawned players gameobjects
+    //Spawned players gameobjects lists
     public List<GameObject> playersList;
+    public List<GameObject> playersListWhite;
+    public List<GameObject> playersListBlack;
 
     //Number of in-game players
     [SyncVar]
@@ -65,40 +67,20 @@ public class PlayerManager : NetworkBehaviour
 
         playersNumber = 0;
         playersList = new List<GameObject>();
+        playersListBlack = new List<GameObject>();
+        playersListWhite = new List<GameObject>();
         teamWhiteAlive = 0;
         teamBlackAlive = 0;
 
         //Wait for player to join
         roundState = PlayState.Waiting;
 
-        //Add handlers for messages
+        //Add handlers for netMessages
         NetworkServer.RegisterHandler(MsgType.AddPlayer, OnAddPlayerMessage);
         NetworkServer.RegisterHandler(MsgType.Disconnect, OnDisconnectMessage);
         NetworkServer.RegisterHandler(OnPlayerReadyMessageCode, OnPlayerReadyMessage);
         NetworkServer.RegisterHandler(OnPlayerDeadMessageCode, OnPlayerDeadMessage);
-
-        //Additionnal game mode setups
-        /*switch (chosenGameMode)
-        {
-            //Deathmatch
-            case 0:
-                break;
-        }*/
     }
-
-    /// <summary>  
-	/// GameObject Update
-	/// </summary>  
-    /*void Update()
-    {
-        if (!isServer)
-            return;
-
-        //start the round if theres enough players
-        if (roundState == PlayState.Waiting)
-            if (playersReady >= 2)
-                StartNewRound();
-    }*/
 
     void OnDisconnectMessage(NetworkMessage netMsg)
     {
@@ -132,9 +114,15 @@ public class PlayerManager : NetworkBehaviour
 
         //Spawn the GameObject in its team's spawn point 
         if (black)
+        {
             pplayer = Instantiate(playerPrefabs[msg.character], spawnPointTeamBlack.transform.position, spawnPointTeamBlack.transform.rotation);
+            playersListBlack.Add(pplayer);
+        }
         else
+        {
             pplayer = Instantiate(playerPrefabs[(3 + msg.character)], spawnPointTeamWhite.transform.position, spawnPointTeamWhite.transform.rotation);
+            playersListWhite.Add(pplayer);
+        }
 
         // This spawns the new player on all clients
         NetworkServer.AddPlayerForConnection(netMsg.conn, pplayer, 0);
@@ -162,15 +150,9 @@ public class PlayerManager : NetworkBehaviour
         PlayerMessage msg = netMsg.ReadMessage<PlayerMessage>();
 
         if (teamWhite.Contains(msg.name))
-        {
             teamWhiteAlive--;
-            Debug.Log(msg.name + " added to white deads");
-        }
         else
-        {
             teamBlackAlive--;
-            Debug.Log(msg.name + " added to black deads");
-        }
 
         //Additionnal gamemode checks
         switch (chosenGameMode)
@@ -223,6 +205,17 @@ public class PlayerManager : NetworkBehaviour
     {
         int[] i = new int[] {scoresWhite, scoresBlack};
         return i;
+    }
+
+    /// <summary>  
+	/// Checks if two players are in the same team (by gameObjects)
+	/// </summary> 
+    public bool areInSameTeam(GameObject player1, GameObject player2)
+    {
+        if (playersListWhite.Contains(player1) && playersListWhite.Contains(player2) ||
+            playersListBlack.Contains(player1) && playersListBlack.Contains(player2))
+            return true;
+        else return false;
     }
 
     IEnumerator WaitForNextRound()

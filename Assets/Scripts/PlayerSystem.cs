@@ -45,13 +45,17 @@ public class PlayerSystem : NetworkBehaviour {
     //State of the current player
     public PlayState playState;
 
-    // Shooting object 
+    // Shooting object s
     EjectorShoot ejector;
-    ParticleSystem particles;
+    ParticleSystem particlesFire;
+    ParticleSystem particlesAbilityTargeted;
     // Attached FirstPersonController script  
     public FirstPersonController FPController;
     //Top camera for waiting players
     public GameObject waitCamera;
+
+    //Cooldown bool to limit ability use
+    bool canUseAbility;
 
     // UI text
     //Stats
@@ -85,10 +89,12 @@ public class PlayerSystem : NetworkBehaviour {
         InitChosenCharacter();
 
         ejector = gameObject.GetComponentInChildren<EjectorShoot>();
-        particles = gameObject.GetComponentInChildren<ParticleSystem>();
-        particles.Stop();
-
-        waitCamera = GameObject.FindGameObjectWithTag("WaitCamera");
+        //Particles when firing
+        particlesFire = transform.GetChild(0).GetComponentInChildren<ParticleSystem>();
+        particlesFire.Stop();
+        //Particles when targeted by ability
+        particlesAbilityTargeted = gameObject.GetComponent<ParticleSystem>();
+        particlesAbilityTargeted.Stop();
 
         if (!isLocalPlayer)
         {
@@ -107,19 +113,22 @@ public class PlayerSystem : NetworkBehaviour {
                     robjs[i].gameObject.SetActive(false);
 
             //Set wait camera
+			waitCamera = GameObject.FindGameObjectWithTag("WaitCamera");
             SwitchPlayState(playState);
 
             //Finally send ready message to server
             playerNetMsg = (PlayerMessage)GameObject.Find("Manager Spawner").GetComponent<ManagerSpawner>().CreatePlayerMessage();
             ManagerSpawner.myClient.Send(PlayerManager.OnPlayerReadyMessageCode, playerNetMsg);
+
+            canUseAbility = true;
         }
 
     }
 
-	/// <summary>  
+    /// <summary>  
     /// GameObject Update  
     /// </summary>  
-	void Update ()
+    void Update()
     {
         if (!isLocalPlayer)
             return;
@@ -129,14 +138,38 @@ public class PlayerSystem : NetworkBehaviour {
             return;
 
         // Get Mouse1 input  
-        if (Input.GetButton("Fire1")) {
+        if (Input.GetButton("Fire1"))
+        {
             //Check if player can shoot already  
             if (Time.time > nextFire) {
-				nextFire = Time.time + fireRate;
-                particles.Play();
+                nextFire = Time.time + fireRate;
+                particlesFire.Play();
                 CmdFire();
-			}
-		}
+            }
+        }
+
+        // Get special ability input
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            if (canUseAbility)
+            {
+                //Raycast radius is large so players don't have to be exactly precise
+                float castingRadius = 1.5f;
+                float castingDistance = 20f;
+                RaycastHit hit;
+                Vector3 ray = transform.position + gameObject.GetComponent<CharacterController>().center;
+
+                //if ability hit someone
+                if (Physics.SphereCast(ray, castingRadius, transform.forward, out hit, castingDistance))
+                {
+                    //Tell server to apply effect on player
+                    CmdApplyAbilityEffect(gameObject, hit.transform.gameObject);
+                    //start cooldown
+                    StartCoroutine(AbilityCooldown());
+                    canUseAbility = false;
+                }
+            }
+        }
 
         //Display scoreboard
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -193,6 +226,8 @@ public class PlayerSystem : NetworkBehaviour {
     {
         statsText.text = "| " + health + "\n| " + speed + "\n| " + damage +
                         "\n| " + fireRate + "\n| " + bulletSpeed;
+        if (canUseAbility)
+            statsText.text += "\nAbility Available";
     }
 
     /// <summary>  
@@ -216,11 +251,13 @@ public class PlayerSystem : NetworkBehaviour {
         //Check if player is dead
         if (health <= 0)
         {
-            health = baseHealth;
             RpcSendDead();
         }
     }
 
+    /// <summary>  
+    /// Get called when the server got the player dead's message
+    /// </summary>  
     [ClientRpc]
     public void RpcSendDead()
     {
@@ -229,7 +266,6 @@ public class PlayerSystem : NetworkBehaviour {
             playState = PlayState.Waiting;
             SwitchPlayState(playState);
             //Send dead message to server
-            Debug.Log("ded : " + playerNetMsg.name);
             ManagerSpawner.myClient.Send(PlayerManager.OnPlayerDeadMessageCode, playerNetMsg);
 
         }
@@ -244,6 +280,7 @@ public class PlayerSystem : NetworkBehaviour {
         if (isLocalPlayer)
         {
             transform.position = spawnPoint;
+            health = baseHealth;
         }
         //The server resets life
         else
@@ -275,6 +312,8 @@ public class PlayerSystem : NetworkBehaviour {
         if (isLocalPlayer)
         {
             //Update scoreboard
+            scorewhite = win[0];
+            scoreblack = win[1];
             scoresCanvas.text = "White team : " + win[0] + "\nBlack team : " + win[1];
             //Display white team win Canvas
             winWhiteText.gameObject.SetActive(true);
@@ -293,6 +332,8 @@ public class PlayerSystem : NetworkBehaviour {
         if (isLocalPlayer)
         {
             //Update scoreboard
+            scorewhite = win[0];
+            scoreblack = win[1];
             scoresCanvas.text = "White team : " + win[0] + "\nBlack team : " + win[1];
             //Display black team win Canvas
             winBlackText.gameObject.SetActive(true);
@@ -300,6 +341,43 @@ public class PlayerSystem : NetworkBehaviour {
             playState = PlayState.Waiting;
             SwitchPlayState(playState);
         }
+    }
+
+    /// <summary>  
+    /// Call the server to target player with ability
+    /// </summary>  
+    [Command]
+    public void CmdApplyAbilityEffect(GameObject sender, GameObject target)
+    {
+        //Ability effect is different if target is ally or enemy
+        if (GameObject.Find("Player Manager").GetComponent<PlayerManager>().areInSameTeam(sender, target))
+            target.GetComponent<PlayerSystem>().RpcGetAbilityEffect_Healing();
+        else
+            target.GetComponent<PlayerSystem>().RpcGetAbilityEffect_Stopping();
+    }
+
+    /// <summary>  
+    /// Get called by the server when the player is targeted by a friendly player ability
+    /// </summary>  
+    [ClientRpc]
+    public void RpcGetAbilityEffect_Healing()
+    {
+        health = baseHealth;
+        particlesAbilityTargeted.startColor = Color.green;
+        particlesAbilityTargeted.Play();
+    }
+
+    /// <summary>  
+    /// Get called by the server when the player is targeted by a enemy player ability
+    /// </summary>  
+    [ClientRpc]
+    public void RpcGetAbilityEffect_Stopping()
+    {
+        speed = 20;
+        FPController.ChangeCharacterSpeedTemporary(speed);
+        particlesAbilityTargeted.startColor = Color.red;
+        particlesAbilityTargeted.Play();
+        StartCoroutine(RechangeSpeed());
     }
 
     /// <summary>  
@@ -329,5 +407,16 @@ public class PlayerSystem : NetworkBehaviour {
             }
         }
     }
-}
 
+    IEnumerator AbilityCooldown()
+    {
+        yield return new WaitForSeconds(3.0f);
+        canUseAbility = true;
+    }
+
+    IEnumerator RechangeSpeed()
+    {
+        yield return new WaitForSeconds(4.0f);
+        speed = baseSpeed;
+    }
+}
